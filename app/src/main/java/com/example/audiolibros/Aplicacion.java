@@ -1,4 +1,8 @@
+package com.example.audiolibros;
+
 import android.app.Application;
+
+import java.util.List;
 
 public class Aplicacion extends Application {
     private List<Libro> listaLibros;

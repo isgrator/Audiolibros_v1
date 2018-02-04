@@ -1,8 +1,10 @@
+package com.example.audiolibros;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Libro {
-    private String titulo;
+    public String titulo;
     public String autor;
     public int recursoImagen;
     public String urlAudio;
