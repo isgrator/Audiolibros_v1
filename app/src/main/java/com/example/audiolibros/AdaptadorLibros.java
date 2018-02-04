@@ -15,6 +15,7 @@ public class AdaptadorLibros extends
     private LayoutInflater inflador;      //Crea Layouts a partir del XML
     protected List<Libro> listaLibros;    //Lista de libros a visualizar
     private Context contexto;
+    private View.OnClickListener onClickListener;
 
     public AdaptadorLibros(Context contexto, List<Libro> listaLibros) {
         inflador = (LayoutInflater) contexto
@@ -40,6 +41,7 @@ public class AdaptadorLibros extends
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Inflamos la vista desde el xml
         View v = inflador.inflate(R.layout.elemento_selector, null);
+        v.setOnClickListener(onClickListener);
         return new ViewHolder(v);
     }
 
@@ -54,6 +56,11 @@ public class AdaptadorLibros extends
     // Indicamos el número de elementos de la lista
     @Override public int getItemCount() {
         return listaLibros.size();
+    }
+
+    //Para poder modificar el campo
+    public void setOnItemClickListener(View.OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
 }
 

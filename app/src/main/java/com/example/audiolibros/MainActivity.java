@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +40,15 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(app.getAdaptador());
         layoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(layoutManager);
+
+        //Asignamos un escuchador para cada vista del RecyclerView
+        app.getAdaptador().setOnItemClickListener(new View.OnClickListener(){
+            @Override public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Seleccionado el elemento: "
+                                + recyclerView.getChildAdapterPosition(v),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
