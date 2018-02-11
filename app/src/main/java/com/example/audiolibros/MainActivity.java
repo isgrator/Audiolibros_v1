@@ -13,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.audiolibros.fragments.SelectorFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -23,6 +25,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Añadimos el fragment para el caso de la pantalla pequeña
+        if ((findViewById(R.id.contenedor_pequeno) != null) &&
+                (getFragmentManager().findFragmentById(
+                        R.id.contenedor_pequeno) == null)){
+            SelectorFragment primerFragment = new SelectorFragment();
+            getFragmentManager().beginTransaction()
+                    .add(R.id.contenedor_pequeno, primerFragment).commit();
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
