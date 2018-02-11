@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.audiolibros.AdaptadorLibros;
 import com.example.audiolibros.Aplicacion;
 import com.example.audiolibros.Libro;
+import com.example.audiolibros.MainActivity;
 import com.example.audiolibros.R;
 
 import java.util.List;
@@ -46,9 +47,9 @@ public class SelectorFragment extends Fragment {
         adaptador.setOnItemClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(actividad, "Seleccionado el elemento: "
-                                + recyclerView.getChildAdapterPosition(v),
-                        Toast.LENGTH_SHORT).show();
+                ((MainActivity) actividad).mostrarDetalle(
+                        recyclerView.getChildAdapterPosition(v));
+
             }
         });
         return vista;
