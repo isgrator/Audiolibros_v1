@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Aplicacion app = (Aplicacion) getApplication();
+        /*Aplicacion app = (Aplicacion) getApplication();
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setAdapter(app.getAdaptador());
         layoutManager = new GridLayoutManager(this,2);
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                                 + recyclerView.getChildAdapterPosition(v),
                         Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
     }
 
     @Override
