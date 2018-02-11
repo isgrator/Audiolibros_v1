@@ -1,6 +1,8 @@
 package com.example.audiolibros;
 
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -66,11 +68,22 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_preferencias) {
+            Toast.makeText(this, "Preferencias", Toast.LENGTH_LONG).show();
+            return true;
+        }else if(id== R.id.menu_ultimo){
+            irUltimoVisitado();
+            return true;
+        }else if (id == R.id.menu_buscar) {
+        return true;
+        } else if (id == R.id.menu_acerca) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Mensaje de Acerca De");
+            builder.setPositiveButton(android.R.string.ok, null);
+            builder.create().show();
             return true;
         }
-
-        return super.onOptionsItemSelected(item);
+       return super.onOptionsItemSelected(item);
     }
 
     //Método para mostrar el detalle de un libro (pág.48)
@@ -88,6 +101,24 @@ public class MainActivity extends AppCompatActivity {
             transaccion.replace(R.id.contenedor_pequeno, nuevoFragment);
             transaccion.addToBackStack(null); //Cuando el usuario pulse "atrás" la transaccións e deshará en lugar de cerra la actividad
             transaccion.commit();
+        }
+
+        //Guardar valor en preferencias
+        SharedPreferences pref = getSharedPreferences(
+                "com.example.audiolibros_internal", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt("ultimo", id);
+        editor.commit();
+    }
+
+    public void irUltimoVisitado() {
+        SharedPreferences pref = getSharedPreferences(
+                "com.example.audiolibros_internal", MODE_PRIVATE);
+        int id = pref.getInt("ultimo", -1);
+        if (id >= 0) {
+            mostrarDetalle(id);
+        } else {
+            Toast.makeText(this,"Sin última vista",Toast.LENGTH_LONG).show();
         }
     }
 }
