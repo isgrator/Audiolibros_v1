@@ -35,20 +35,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*Aplicacion app = (Aplicacion) getApplication();
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        recyclerView.setAdapter(app.getAdaptador());
-        layoutManager = new GridLayoutManager(this,2);
-        recyclerView.setLayoutManager(layoutManager);
-
-        //Asignamos un escuchador para cada vista del RecyclerView
-        app.getAdaptador().setOnItemClickListener(new View.OnClickListener(){
-            @Override public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Seleccionado el elemento: "
-                                + recyclerView.getChildAdapterPosition(v),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });*/
     }
 
     @Override
