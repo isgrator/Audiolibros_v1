@@ -16,6 +16,7 @@ public class AdaptadorLibros extends
     protected List<Libro> listaLibros;    //Lista de libros a visualizar
     private Context contexto;
     private View.OnClickListener onClickListener;
+    private View.OnLongClickListener onLongClickListener;
 
     public AdaptadorLibros(Context contexto, List<Libro> listaLibros) {
         inflador = (LayoutInflater) contexto
@@ -42,6 +43,8 @@ public class AdaptadorLibros extends
         // Inflamos la vista desde el xml
         View v = inflador.inflate(R.layout.elemento_selector, null);
         v.setOnClickListener(onClickListener);
+        //Escuchador para el onLongClickListener
+        v.setOnLongClickListener(onLongClickListener);
         return new ViewHolder(v);
     }
 
@@ -61,6 +64,10 @@ public class AdaptadorLibros extends
     //Para poder modificar el campo
     public void setOnItemClickListener(View.OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
+    }
+
+    public void setOnItemLongClickListener(View.OnLongClickListener onLongClickListener) {
+        this.onLongClickListener = onLongClickListener;
     }
 }
 

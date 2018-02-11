@@ -1,7 +1,10 @@
 package com.example.audiolibros.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -52,6 +55,40 @@ public class SelectorFragment extends Fragment {
 
             }
         });
+
+        //Para añadir un menú contextual al RecyclerView
+        adaptador.setOnItemLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(final View v) {
+                final int id = recyclerView.getChildAdapterPosition(v);
+                AlertDialog.Builder menu = new AlertDialog.Builder(actividad);
+                CharSequence[] opciones = { "Compartir", "Borrar ", "Insertar" };
+                menu.setItems(opciones, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int opcion) {
+                        switch (opcion) {
+                            case 0: //Compartir
+                                Libro libro = listaLibros.get(id);
+                                Intent i = new Intent(Intent.ACTION_SEND);
+                                i.setType("text/plain");
+                                i.putExtra(Intent.EXTRA_SUBJECT, libro.titulo);
+                                i.putExtra(Intent.EXTRA_TEXT, libro.urlAudio);
+                                startActivity(Intent.createChooser(i, "Compartir"));
+                                break;
+                            case 1: //Borrar
+                                listaLibros.remove(id);
+                                adaptador.notifyDataSetChanged();
+                                break;
+                            case 2: //Insertar
+                                listaLibros.add(listaLibros.get(id));
+                                adaptador.notifyDataSetChanged();
+                                break;
+                        }
+                    }
+                });
+                menu.create().show();
+                return true;
+            }
+        });
+
         return vista;
     }
 }
