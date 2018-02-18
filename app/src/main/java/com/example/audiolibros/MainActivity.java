@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,12 +24,14 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-
+    private AdaptadorLibrosFiltro adaptador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        adaptador= ((Aplicacion) getApplicationContext()).getAdaptador();
 
         //Añadimos el fragment para el caso de la pantalla pequeña
         if ((findViewById(R.id.contenedor_pequeno) != null) &&
@@ -50,6 +53,34 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
                 irUltimoVisitado();
             }
+        });
+
+        //Pestañas
+        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        tabs.addTab(tabs.newTab().setText("Todos"));
+        tabs.addTab(tabs.newTab().setText("Nuevos"));
+        tabs.addTab(tabs.newTab().setText("Leidos"));
+        tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0: //Todos
+                        adaptador.setNovedad(false);
+                        adaptador.setLeido(false);
+                        break;
+                    case 1: //Nuevos
+                        adaptador.setNovedad(true);
+                        adaptador.setLeido(false);
+                        break;
+                    case 2: //Leidos
+                        adaptador.setNovedad(false);
+                        adaptador.setLeido(true);
+                        break;
+                }
+                adaptador.notifyDataSetChanged();
+            }
+            @Override public void onTabUnselected(TabLayout.Tab tab) {}
+            @Override public void onTabReselected(TabLayout.Tab tab) {}
         });
 
     }

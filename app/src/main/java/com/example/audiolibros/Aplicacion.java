@@ -6,15 +6,16 @@ import java.util.List;
 
 public class Aplicacion extends Application {
     private List<Libro> listaLibros;
-    private AdaptadorLibros adaptador;
+    private AdaptadorLibrosFiltro adaptador;
 
     @Override
     public void onCreate() {
+        super.onCreate();
         listaLibros = Libro.ejemploLibros();
-        adaptador = new AdaptadorLibros (this, listaLibros);
+        adaptador = new AdaptadorLibrosFiltro(this, listaLibros);
     }
 
-    public AdaptadorLibros getAdaptador() {
+    public AdaptadorLibrosFiltro getAdaptador() {
         return adaptador;
     }
 
