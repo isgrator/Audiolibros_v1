@@ -34,6 +34,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@drawable/ic_access_time_white_24px"
-        tools:ignore="VectorDrawableCompat" />
+        tools:ignore="VectorDrawableCompat"  />
 
 </android.support.design.widget.CoordinatorLayout>
