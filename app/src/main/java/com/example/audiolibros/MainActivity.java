@@ -184,6 +184,13 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_suspense) {
             adaptador.setGenero(Libro.G_SUSPENSE);
             adaptador.notifyDataSetChanged();
+        }else if (id == R.id.nav_preferencias) {
+            //Toast.makeText(this, "Preferencias", Toast.LENGTH_LONG).show();
+            Intent i = new Intent(this, PreferenciasActivity.class);
+            startActivity(i);
+            return true;
+        }else if (id == R.id.nav_compartir) {
+            //...
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(
                 R.id.drawer_layout);
