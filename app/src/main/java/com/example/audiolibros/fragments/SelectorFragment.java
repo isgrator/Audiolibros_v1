@@ -1,5 +1,7 @@
 package com.example.audiolibros.fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -32,7 +34,7 @@ import java.util.List;
  * Created by Isabel María on 11/02/2018.
  */
 
-public class SelectorFragment extends Fragment {
+public class SelectorFragment extends Fragment implements Animator.AnimatorListener {
     private Activity actividad;
     private RecyclerView recyclerView;
     //private AdaptadorLibros adaptador;
@@ -87,8 +89,13 @@ public class SelectorFragment extends Fragment {
                                     @Override
                                     public void onClick(View view){
                                         //listaLibros.remove(id);
+                                        Animator anim = AnimatorInflater.loadAnimator(actividad,R.animator.menguar);
+                                        anim.addListener(SelectorFragment.this);
+                                        anim.setTarget(v);
+                                        anim.start();
+
                                         adaptador.borrar(id);
-                                        adaptador.notifyDataSetChanged();
+                                        //adaptador.notifyDataSetChanged();
                                     }
                                 }).show();
 
@@ -165,5 +172,34 @@ public class SelectorFragment extends Fragment {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onAnimationStart(Animator animation, boolean isReverse) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animator animation, boolean isReverse) {
+
+    }
+
+    @Override
+    public void onAnimationStart(Animator animator) {
+
+    }
+
+    @Override public void onAnimationEnd(Animator animation) {
+        adaptador.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onAnimationCancel(Animator animator) {
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animator animator) {
+
     }
 }

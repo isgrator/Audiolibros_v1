@@ -54,6 +54,9 @@ public class AdaptadorLibros extends
         Libro libro = listaLibros.get(posicion);
         holder.portada.setImageResource(libro.recursoImagen);
         holder.titulo.setText(libro.titulo);
+        holder.itemView.setScaleX(1);
+        holder.itemView.setScaleY(1);
+
     }
 
     // Indicamos el número de elementos de la lista
