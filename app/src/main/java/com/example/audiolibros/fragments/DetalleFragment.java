@@ -12,10 +12,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.audiolibros.Aplicacion;
 import com.example.audiolibros.Libro;
+import com.example.audiolibros.OnZoomSeekBarListener;
 import com.example.audiolibros.R;
+import com.example.audiolibros.ZoomSeekBar;
 
 import java.io.IOException;
 
@@ -32,7 +35,8 @@ public class DetalleFragment extends Fragment implements
 
     @Override public View onCreateView(LayoutInflater inflador, ViewGroup
             contenedor, Bundle savedInstanceState) {
-        View vista = inflador.inflate(R.layout.fragment_detalle,
+
+        final View vista = inflador.inflate(R.layout.fragment_detalle,
                 contenedor, false);
         Bundle args = getArguments();
         if (args != null) {
@@ -41,6 +45,23 @@ public class DetalleFragment extends Fragment implements
         } else {
             ponInfoLibro(0, vista);
         }
+
+        ZoomSeekBar barraAzul =  vista.findViewById(R.id.barraAzul);
+        //ZoomSeekBar barraNaranja =  vista.findViewById(R.id.barraNaranja);
+
+        barraAzul.setOnZoomSeekBarListener(new OnZoomSeekBarListener() {
+            @Override
+            public void onValChanged(int val) {
+                Toast.makeText(vista.getContext(),"Barra azul: "+Integer.toString(val),Toast.LENGTH_SHORT).show();
+            }
+        });
+        /*barraNaranja.setOnZoomSeekBarListener(new OnZoomSeekBarListener() {
+            @Override
+            public void onValChanged(int val) {
+                Toast.makeText(vista.getContext(),"Barra naranja: "+Integer.toString(val),Toast.LENGTH_SHORT).show();
+            }
+        });*/
+
         return vista;
     }
 
