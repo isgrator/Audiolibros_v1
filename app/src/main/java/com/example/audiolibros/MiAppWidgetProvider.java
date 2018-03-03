@@ -18,30 +18,24 @@ public class MiAppWidgetProvider extends AppWidgetProvider {
         }
     }
 
-    /*
-    actualizar eltexto del TextView (R.id.textView1), de manera que nos muestre el valor de un contador.
-    Este contador lo iremos incrementando cada vez que se actualice el widget en el método
-    incrementaContador().
-     */
     public static void actualizaWidget(Context context, int widgetId) {
-        int cont = incrementaContador(context, widgetId);
+
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
                 R.layout.widget);
-        remoteViews.setTextViewText(R.id.TV_titulo, "Último título leído: " + cont);
+
+        //Obtener el último libro leído y su autor
+
+        SharedPreferences prefs = context.getSharedPreferences("ultimo_libro_reproducido",
+                Context.MODE_PRIVATE);
+        String titulo = prefs.getString("titulo", "");
+        String autor = prefs.getString("autor", "");
+
+        remoteViews.setTextViewText(R.id.TV_titulo, "Último título leído: " + titulo);
+        remoteViews.setTextViewText(R.id.TV_autor, "Autor: " + autor);
         AppWidgetManager.getInstance(context).updateAppWidget(widgetId,
                 remoteViews);
     }
 
-    private static int incrementaContador(Context context, int widgetId) {
-        SharedPreferences prefs = context.getSharedPreferences("contadores",
-                Context.MODE_PRIVATE);
-        int cont = prefs.getInt("cont_" + widgetId, 0);
-        cont++;
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("cont_" + widgetId, cont);
-        editor.commit();
-        return cont;
-    }
 }
 
 

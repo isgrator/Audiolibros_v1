@@ -5,7 +5,7 @@
     android:minWidth="110dp"
     android:minResizeWidth="40dp"
     android:minResizeHeight="40dp"
-    android:updatePeriodMillis="100"
+    android:updatePeriodMillis="1800000"
     android:initialLayout="@layout/widget"
     android:previewImage="@drawable/play"
     android:resizeMode="horizontal|vertical"

@@ -85,6 +85,8 @@ public class DetalleFragment extends Fragment implements
         try {
             mediaPlayer.setDataSource(getActivity(), audio);
             mediaPlayer.prepareAsync();
+
+            recuerdaUltimoLibro(libro.titulo,libro.autor);
         } catch (IOException e) {
             Log.e("Audiolibros", "ERROR: No se puede reproducir "+audio,e);
         }
@@ -168,5 +170,17 @@ public class DetalleFragment extends Fragment implements
 
     @Override public int getAudioSessionId() {
         return 0;
+    }
+
+    //Método para almacenar en las oreferencias el último libro reproducido
+    public void recuerdaUltimoLibro(String titulo_libro, String autor_libro) {
+
+        SharedPreferences prefs = this.getActivity().getSharedPreferences("ultimo_libro_reproducido",
+                Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString( "titulo",titulo_libro);
+        editor.putString( "autor",autor_libro);
+        editor.commit();
     }
 }
