@@ -1,8 +1,10 @@
 package com.example.audiolibros;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 
@@ -32,6 +34,14 @@ public class MiAppWidgetProvider extends AppWidgetProvider {
 
         remoteViews.setTextViewText(R.id.TV_titulo, "Último título leído: " + titulo);
         remoteViews.setTextViewText(R.id.TV_autor, "Autor: " + autor);
+
+        //Lanzar una actividad al pulsar una vista
+        Intent intent = new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+                intent, 0);
+
+        remoteViews.setOnClickPendingIntent(R.id.icono_lista, pendingIntent);
+
         AppWidgetManager.getInstance(context).updateAppWidget(widgetId,
                 remoteViews);
     }
