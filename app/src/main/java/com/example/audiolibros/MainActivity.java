@@ -2,14 +2,19 @@ package com.example.audiolibros;
 
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,6 +26,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.example.audiolibros.fragments.DetalleFragment;
@@ -97,10 +103,8 @@ public class MainActivity extends AppCompatActivity
                 drawer, toolbar, R.string.drawer_open, R.string. drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(
-                R.id.nav_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
     }
 
@@ -146,6 +150,7 @@ public class MainActivity extends AppCompatActivity
             transaccion.replace(R.id.contenedor_pequeno, nuevoFragment);
             transaccion.addToBackStack(null); //Cuando el usuario pulse "atrás" la transaccións e deshará en lugar de cerra la actividad
             transaccion.commit();
+
         }
 
         //Guardar valor en preferencias
@@ -154,6 +159,8 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences.Editor editor = pref.edit();
         editor.putInt("ultimo", id);
         editor.commit();
+
+
     }
 
     public void irUltimoVisitado() {
@@ -209,5 +216,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    //Método para obtener toda la info de un libro
+    public Libro getLibro(int id) {
+        Libro libro = ((Aplicacion) getApplication()).getListaLibros().get(id);
+        return libro;
+    }
 
 }

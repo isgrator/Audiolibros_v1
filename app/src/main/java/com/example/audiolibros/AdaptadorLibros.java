@@ -33,7 +33,7 @@ public class AdaptadorLibros extends
         public ViewHolder(View itemView) {
             super(itemView);
             portada = (ImageView) itemView.findViewById(R.id.portada);
-            titulo = (TextView) itemView.findViewById(R.id.titulo);
+            titulo = (TextView) itemView.findViewById(R.id.TV_titulo);
         }
     }
 

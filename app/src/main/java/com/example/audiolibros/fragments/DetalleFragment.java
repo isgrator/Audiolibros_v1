@@ -1,11 +1,15 @@
 package com.example.audiolibros.fragments;
 
 import android.app.Fragment;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -13,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,9 +36,16 @@ import java.io.IOException;
 public class DetalleFragment extends Fragment implements
         View.OnTouchListener, MediaPlayer.OnPreparedListener,
         MediaController.MediaPlayerControl {
+
     public static String ARG_ID_LIBRO = "id_libro";
     MediaPlayer mediaPlayer;
     MediaController mediaController;
+
+    //Para la notificación
+    private static final int ID_NOTIFICACION = 1;
+    private NotificationManager notificManager;
+    private NotificationCompat.Builder notificacion;
+    private RemoteViews remoteViews;
 
     @Override public View onCreateView(LayoutInflater inflador, ViewGroup
             contenedor, Bundle savedInstanceState) {
@@ -70,7 +82,7 @@ public class DetalleFragment extends Fragment implements
     private void ponInfoLibro(int id, View vista) {
         Libro libro = ((Aplicacion) getActivity().getApplication())
                 .getListaLibros().get(id);
-        ((TextView) vista.findViewById(R.id.titulo)).setText(libro.titulo);
+        ((TextView) vista.findViewById(R.id.TV_titulo)).setText(libro.titulo);
         ((TextView) vista.findViewById(R.id.autor)).setText(libro.autor);
         ((ImageView) vista.findViewById(R.id.portada))
                 .setImageResource(libro.recursoImagen);
@@ -85,8 +97,25 @@ public class DetalleFragment extends Fragment implements
         try {
             mediaPlayer.setDataSource(getActivity(), audio);
             mediaPlayer.prepareAsync();
+            recuerdaUltimoLibro(id);
 
-            recuerdaUltimoLibro(libro.titulo,libro.autor);
+            remoteViews = new RemoteViews(vista.getContext().getPackageName(), R.layout.notificacion_libro_reproducido);
+            remoteViews.setImageViewResource(R.id.reproducir, android.R.drawable.ic_media_play);
+            remoteViews.setImageViewResource(R.id.imagen, libro.recursoImagen);
+            remoteViews.setTextViewText(R.id.TV_titulo, libro.titulo);
+            remoteViews.setTextColor(R.id.TV_titulo, Color.BLACK);
+            remoteViews.setTextViewText(R.id.TV_texto_autor, libro.autor);
+            remoteViews.setTextColor(R.id.TV_texto_autor, Color.BLACK);
+
+            //Lanzamiento de la notificación
+            notificacion = new NotificationCompat.Builder(vista.getContext())
+                    .setContent(remoteViews)
+                    .setPriority(Notification.PRIORITY_MAX)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(libro.titulo)
+                    .setContentText(libro.autor);
+            notificManager = (NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+            notificManager.notify(ID_NOTIFICACION, notificacion.build());
         } catch (IOException e) {
             Log.e("Audiolibros", "ERROR: No se puede reproducir "+audio,e);
         }
@@ -121,6 +150,7 @@ public class DetalleFragment extends Fragment implements
         }
         super.onStop();
     }
+
 
     @Override public boolean canPause() {
         return true;
@@ -173,14 +203,15 @@ public class DetalleFragment extends Fragment implements
     }
 
     //Método para almacenar en las oreferencias el último libro reproducido
-    public void recuerdaUltimoLibro(String titulo_libro, String autor_libro) {
+    public void recuerdaUltimoLibro(int id) {
 
         SharedPreferences prefs = this.getActivity().getSharedPreferences("ultimo_libro_reproducido",
                 Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString( "titulo",titulo_libro);
-        editor.putString( "autor",autor_libro);
+        editor.putInt( "id_libro",id);
         editor.commit();
     }
+
+
 }
