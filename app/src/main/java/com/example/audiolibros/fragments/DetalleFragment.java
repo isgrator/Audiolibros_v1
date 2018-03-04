@@ -3,7 +3,9 @@ package com.example.audiolibros.fragments;
 import android.app.Fragment;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.audiolibros.Aplicacion;
 import com.example.audiolibros.Libro;
+import com.example.audiolibros.MainActivity;
 import com.example.audiolibros.OnZoomSeekBarListener;
 import com.example.audiolibros.R;
 import com.example.audiolibros.ZoomSeekBar;
@@ -108,12 +111,18 @@ public class DetalleFragment extends Fragment implements
             remoteViews.setTextColor(R.id.TV_texto_autor, Color.BLACK);
 
             //Lanzamiento de la notificación
+
+            Intent intent = new Intent(vista.getContext(), MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(vista.getContext(), 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+
             notificacion = new NotificationCompat.Builder(vista.getContext())
                     .setContent(remoteViews)
                     .setPriority(Notification.PRIORITY_MAX)
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(libro.titulo)
-                    .setContentText(libro.autor);
+                    .setContentText(libro.autor)
+                    .setContentIntent(pendingIntent);
             notificManager = (NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
             notificManager.notify(ID_NOTIFICACION, notificacion.build());
         } catch (IOException e) {
